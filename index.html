@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Password Generator</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white">
+  <div class="bg-gray-800 text-white p-8 rounded-lg mx-auto max-w-md">
+    <h1 class="text-3xl font-bold mb-6">Password Generator</h1>
+
+    <div class="mb-6">
+      <input id="genratedpass" type="text" class="bg-gray-700 text-white px-4 py-2 rounded-md w-full" placeholder="Click on 'Generate' button" value="">
+    </div>
+
+    <div class="flex gap-4 mb-6">
+      <button id="genrate" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">Generate</button>
+      <button id="copy" class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md">Copy to Clipboard</button>
+    </div>
+
+    <div class="mb-6 flex">
+      <label class="block text-sm font-medium text-gray-400 mt-2" >Password Length</label>
+      <input id="passlength" type="number" class="bg-gray-700 text-white px-4 py-2 rounded-md w-28 ml-5" >
+    </div>
+
+    <div class="mb-6">
+      <label class="block text-sm font-medium text-gray-400">Include uppercase letters</label>
+      <input id="uppercase" type="checkbox" class="bg-gray-700 text-white px-4 py-2 rounded-md w-full" >
+    </div>
+
+    <div class="mb-6">
+      <label class="block text-sm font-medium text-gray-400">Include lowercase letters</label>
+      <input id="lowercase" type="checkbox" class="bg-gray-700 text-white px-4 py-2 rounded-md w-full" >
+    </div>
+
+    <div class="mb-6">
+      <label class="block text-sm font-medium text-gray-400">Include numbers</label>
+      <input id="number" type="checkbox" class="bg-gray-700 text-white px-4 py-2 rounded-md w-full" >
+    </div>
+
+    <div class="mb-6">
+      <label class="block text-sm font-medium text-gray-400">Include symbols</label>
+      <input id="symbol" type="checkbox" class="bg-gray-700 text-white px-4 py-2 rounded-md w-full" >
+    </div>
+  </div>
+
+<!-- using dom js for -->
+  <script> 
+    
+    
+    
+    //  variables these store the character of password//
+    let lowercaselatter="abcdefghijklmnopqrstuvwxyz"
+     let uppercaselatter="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+     let numbers="0123456789"
+     let symbols="! #$%&'()*+,-./:;<=>?@[\]^_`{|}~\"\ "
+    
+
+     // targeting html elements
+    let genrate=document.getElementById("genrate");
+    let genratedpass=document.getElementById('genratedpass')
+    let uppercase=document.getElementById("uppercase")
+    let lowercase=document.getElementById("lowercase")
+    let number=document.getElementById("number")
+    let symbol=document.getElementById("symbol")
+    let copy=document.getElementById("copy")
+    
+    
+       
+
+    
+
+
+    // random number genrated b/w 0 to length of 'a' variable and send this number to arr as an index //
+      function random(max){
+        return Math.floor(Math.random()*max);
+      }
+
+
+    
+    //first find the password length//
+     let passlength=document.getElementById("passlength")
+     let length=0;
+     passlength.addEventListener("input",function(){
+          
+         length =passlength.value;
+         
+        
+     })
+
+     // when click on genrate button//
+    genrate.addEventListener( 'click',function(){
+              let a="";
+       // checking which checkbox is cheked // 
+         if(uppercase.checked) a+=uppercaselatter;
+        if(lowercase.checked) a+=lowercaselatter;
+       if(number.checked) a+=numbers;
+        if(symbol.checked) a+=symbols; 
+
+        if(a===""){
+          alert("plesee select checkbox");
+          return;
+        }
+
+
+      // checking the limit of of password length//              
+       if(isNaN(length) || length<=0 || length>100){
+           alert("enter a valid length of password")
+                          return;
+                     }
+              
+            let password="";
+
+         // here we iterate array of string 'a' till the length of password//   
+            for(let i=0;i<length;i++){
+              let randomindex=random(a.length);
+               password +=a[randomindex];
+            }
+                
+                 
+              genratedpass.value=password;           
+    })
+  
+    // when we click on copy button in copy the password in clipboard//
+    copy.addEventListener("click",function(){
+        navigator.clipboard.writeText(genratedpass.value)
+        if(genratedpass.value=="") alert("please genrate password")
+       else alert("password copied")
+          
+    })
+
+
+  </script>
+</body>
+</html>
